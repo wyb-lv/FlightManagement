@@ -37,7 +37,8 @@ public class ChangeEmployeeInformation {
                         System.out.println("Name cannot be empty. Try again.");
                     }
                     if (attempts == MAX_ATTEMPTS - 1) {
-                        System.out.println("Max attempts reached. Skipping name.");
+                        System.out.println("Max attempts reached. Returning to menu.");
+                        return;
                     }
                 }
 
@@ -52,7 +53,8 @@ public class ChangeEmployeeInformation {
                         System.out.println("Gender cannot be empty. Try again.");
                     }
                     if (attempts == MAX_ATTEMPTS - 1) {
-                        System.out.println("Max attempts reached. Skipping gender.");
+                        System.out.println("Max attempts reached. Returning to menu.");
+                        return;
                     }
                 }
 
@@ -67,7 +69,8 @@ public class ChangeEmployeeInformation {
                         System.out.println("Position cannot be empty. Try again.");
                     }
                     if (attempts == MAX_ATTEMPTS - 1) {
-                        System.out.println("Max attempts reached. Skipping position.");
+                        System.out.println("Max attempts reached. Returning to menu.");
+                        return;
                     }
                 }
 
@@ -84,7 +87,8 @@ public class ChangeEmployeeInformation {
                         scanner.next(); // consume invalid input
                     }
                     if (attempts == MAX_ATTEMPTS - 1) {
-                        System.out.println("Max attempts reached. Skipping age.");
+                        System.out.println("Max attempts reached. Returning to menu.");
+                        return;
                     }
                 }
 
@@ -99,7 +103,8 @@ public class ChangeEmployeeInformation {
                         System.out.println("Duplicate or empty username. Try again.");
                     }
                     if (attempts == MAX_ATTEMPTS - 1) {
-                        System.out.println("Max attempts reached. Skipping username.");
+                        System.out.println("Max attempts reached. Returning to menu.");
+                        return;
                     }
                 }
 
@@ -114,7 +119,8 @@ public class ChangeEmployeeInformation {
                         System.out.println("Password cannot be empty. Try again.");
                     }
                     if (attempts == MAX_ATTEMPTS - 1) {
-                        System.out.println("Max attempts reached. Skipping password.");
+                        System.out.println("Max attempts reached. Returning to menu.");
+                        return;
                     }
                 }
 
@@ -124,16 +130,17 @@ public class ChangeEmployeeInformation {
                 // Ask user if they want to perform another action
                 System.out.print("Do you want to update another employee? (yes/no): ");
                 String choice = scanner.nextLine();
-                if (!choice.equalsIgnoreCase("yes")) {
+
+                if (!choice.equalsIgnoreCase("yes"))
                     break;
-                }
-            } else {
+            }
+            else {
                 System.out.println("Employee with ID: " + id + " not found.");
                 System.out.print("Do you want to try again? (yes/no): ");
                 String choice = scanner.nextLine();
-                if (!choice.equalsIgnoreCase("yes")) {
+
+                if (!choice.equalsIgnoreCase("yes"))
                     break;
-                }
             }
         }
     }
@@ -151,7 +158,7 @@ public class ChangeEmployeeInformation {
     }
 
     private void updateCSV(List<Employee> employees) {
-        String filePath = "src/employee_data.csv";
+        String filePath = "employee_data.csv";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (Employee employee : employees) {
                 writer.write(employee.getId() + "," + employee.getName() + "," + employee.getGender() + "," + employee.getPosition() + "," + employee.getAge() + "," + employee.getUsername() + "," + employee.getPassword() + "\n");

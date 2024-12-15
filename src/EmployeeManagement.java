@@ -12,8 +12,6 @@ public class EmployeeManagement {
     public EmployeeManagement() {
         employees = new ArrayList<>();
         loadEmployeesFromFile();
-//        if(!loadEmployeesFromFile())
-//            throw new NullPointerException("Must provide an engine to our car");;
         scanner = new Scanner(System.in);
     }
 
@@ -60,8 +58,8 @@ public class EmployeeManagement {
     private void loadEmployeesFromFile() {
         String filePath = "src/employee_data.csv";
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            while ((reader.readLine()) != null) {
-                String line = reader.readLine();
+            String line;
+            while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 Employee employee = new Employee(parts[0], parts[1], parts[2], parts[3], Integer.parseInt(parts[4]), parts[5], parts[6]);
                 employees.add(employee);

@@ -6,9 +6,14 @@ public class Employee {
     private int age;
     private String username;
     private String password;
+    private AccessLevel access;
+
+    public enum AccessLevel {
+        ADMIN, EMPLOYEE_MANAGER, FLIGHT_MANAGER, NONE
+    }
 
     // Constructor
-    public Employee(String id, String name, String gender, String position, int age, String username, String password) {
+    public Employee(String id, String name, String gender, String position, int age, String username, String password, AccessLevel access) {
         this.id = id;
         this.name = name;
         this.gender = gender;
@@ -16,6 +21,7 @@ public class Employee {
         this.age = age;
         this.username = username;
         this.password = password;
+        this.access = access;
     }
 
     // Getters and Setters
@@ -39,6 +45,9 @@ public class Employee {
 
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
+
+    public AccessLevel getAccess() { return access; }
+    public void setAccess(AccessLevel access) { this.access = access; }
 
     @Override
     public String toString() {

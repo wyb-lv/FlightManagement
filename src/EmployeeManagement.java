@@ -21,36 +21,30 @@ public class EmployeeManagement {
         System.out.println("2. Remove employee");
         System.out.println("3. Update employee information");
         System.out.println("4. Search for employee");
-        System.out.println("5. Print all employee information");
-        System.out.println("Choose an option (1-5, or any other key to exit): ");
+        System.out.println("5. Change employee access");
+        System.out.println("6. Print all employee information");
+        System.out.println("Choose an option (1-6, or any other key to exit): ");
     }
 
     public void run() {
         while (true) {
             showMenu();
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            String choice = scanner.nextLine(); // Read choice as a string
             switch (choice) {
-                case 1:
-                    new AddEmployeeInformation().execute(employees);
-                    break;
-                case 2:
-                    new DeleteEmployeeInformation().execute(employees);
-                    break;
-                case 3:
-                    new ChangeEmployeeInformation().execute(employees);
-                    break;
-                case 4:
-                    new FindEmployeeInformation().execute();
-                    break;
-                case 5:
+                case "1" -> new AddEmployeeInformation().execute(employees);
+                case "2" -> new DeleteEmployeeInformation().execute(employees);
+                case "3" -> new ChangeEmployeeInformation().execute(employees);
+                case "4" -> new FindEmployeeInformation().execute();
+                case "5" -> new ChangeEmployeeAccess().execute(employees);
+                case "6" -> {
                     new ShowEmployeeInformation().execute();
                     System.out.println("Press any key to return to the menu...");
                     scanner.nextLine(); // Wait for user to press any key
-                    break;
-                default:
+                }
+                default -> {
                     System.out.println("Exiting program.");
                     return;
+                }
             }
         }
     }
@@ -61,8 +55,12 @@ public class EmployeeManagement {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
-                Employee employee = new Employee(parts[0], parts[1], parts[2], parts[3], Integer.parseInt(parts[4]), parts[5], parts[6]);
-                employees.add(employee);
+                if (parts.length == 8) { // Include access level
+                    Employee employee = new Employee(parts[0], parts[1], parts[2], parts[3], Integer.parseInt(parts[4]), parts[5], parts[6], Employee.AccessLevel.valueOf(parts[7]));
+                    employees.add(employee);
+                } else {
+                    System.out.println("Invalid line format: " + line);
+                }
             }
         } catch (IOException e) {
             System.out.println("Error while loading employees from file.");

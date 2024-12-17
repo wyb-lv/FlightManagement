@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 
 public class EmployeeUtils implements EmployeeOperations {
     private static final int MAX_ATTEMPTS = 3;
+    private ShowEmployeeInformation s = new ShowEmployeeInformation();
 
     @Override
     public String inputWithValidation(String field, Scanner scanner, Predicate<String> validator) {
@@ -73,5 +74,27 @@ public class EmployeeUtils implements EmployeeOperations {
         } catch (IOException e) {
             System.out.println("Error while writing to the file.");
         }
+    }
+
+    @Override
+    public void checkStringIfNull(String value) {
+        if(value == null) return;
+    }
+
+    @Override
+    public void checkIntegerIfNull(Integer value) {
+        if (value == null) return;
+    }
+
+    @Override
+    public boolean performAnotherAction(String choice) {
+        if (!choice.equalsIgnoreCase("yes")) {
+            return false;
+        } else return true;
+    }
+
+    @Override
+    public void showEmployeeInformation() {
+        s.execute();
     }
 }

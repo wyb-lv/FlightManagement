@@ -3,60 +3,59 @@ import java.util.Scanner;
 
 public class ChangeEmployeeInformation {
     private final EmployeeOperations employeeOps = new EmployeeUtils();
+    Scanner scanner = new Scanner(System.in);
 
     public void execute(List<Employee> employees) {
-        Scanner scanner = new Scanner(System.in);
-        ShowEmployeeInformation showEmployeeInfo = new ShowEmployeeInformation();
-
         while (true) {
-            showEmployeeInfo.execute();
-            String id = employeeOps.inputWithValidation("ID of the employee to update", scanner, input -> employeeOps.isValidId(input, employees));
-            if (id == null) return; // Return to the menu if ID input fails
+            showInfo(employeeOps);
 
-            final Employee toUpdate = findEmployeeById(id, employees);
-            if (toUpdate == null) {
-                System.out.println("Employee with ID: " + id + " not found.");
-                System.out.print("Do you want to try again? (yes/no): ");
-                String choice = scanner.nextLine();
-                if (!choice.equalsIgnoreCase("yes")) {
-                    break; // Return to the menu if the user does not want to try again
+            String id;
+            Employee toUpdate;
+            while (true) {
+                id = inputIDWithValidation(employeeOps);
+                if (id == null) {
+                    System.out.println("Input cannot be null. Please try again.");
+                    continue;
                 }
-                continue;
+
+                toUpdate = findEmployeeById(id, employees);
+                if (toUpdate == null) {
+                    System.out.println("Employee with ID: " + id + " not found.");
+                    if (!performAnotherTry(employeeOps)) {
+                        return;
+                    }
+                } else {
+                    break;
+                }
             }
 
             System.out.println("Updating information for employee with ID: " + id);
 
-            String name = employeeOps.inputWithValidation("new name", scanner, input -> !input.trim().isEmpty());
-            if (name != null) toUpdate.setName(name);
-            else return;
+            String newId = updateIDWithValidation(employeeOps, employees);
+            if(newId == null) return;
 
-            String gender = employeeOps.inputWithValidation("new gender", scanner, input -> !input.trim().isEmpty());
-            if (gender != null) toUpdate.setGender(gender);
-            else return;
+            String name = updateNameWithValidation(employeeOps);
+            if(name == null) return;
 
-            String position = employeeOps.inputWithValidation("new position", scanner, input -> !input.trim().isEmpty());
-            if (position != null) toUpdate.setPosition(position);
-            else return;
+            String gender = updateGenderWithValidation(employeeOps);
+            if(gender == null) return;
 
-            Integer age = employeeOps.inputIntegerWithValidation("new age", scanner);
-            if (age != null) toUpdate.setAge(age);
-            else return;
+            String position = updatePositionWithValidation(employeeOps);
+            if(position == null) return;
 
-            String username = employeeOps.inputWithValidation("new username", scanner, input -> employeeOps.isValidUsername(input, employees, toUpdate));
-            if (username != null) toUpdate.setUsername(username);
-            else return;
+            int age = updateAgeWithValidation();
+            if(age == -1) return;
 
-            String password = employeeOps.inputWithValidation("new password", scanner, input -> !input.trim().isEmpty());
-            if (password != null) toUpdate.setPassword(password);
-            else return;
+            String username = updateUsernameWithValidation(employeeOps, employees);
+            if(username == null) return;
 
-            System.out.println("Employee information updated successfully!");
-            employeeOps.updateCSV(employees, "src/employee_data.csv");
+            String password = updatePasswordWithValidation(employeeOps);
+            if(password == null) return;
 
-            System.out.print("Do you want to update another employee? (yes/no): ");
-            String choice = scanner.nextLine();
-            if (!choice.equalsIgnoreCase("yes")) {
-                break; // Return to the menu if the user does not want to update another employee
+            updateToCSV(employeeOps, employees, toUpdate, newId, name, gender, position, age, username, password);
+
+            if (!performAnotherChange(employeeOps)) {
+                break;
             }
         }
     }
@@ -68,5 +67,67 @@ public class ChangeEmployeeInformation {
             }
         }
         return null;
+    }
+
+    public void showInfo(EmployeeOperations employeeOps) {
+        employeeOps.showEmployeeInformation();
+    }
+
+    public String inputIDWithValidation(EmployeeOperations employeeOps) {
+        return employeeOps.inputWithValidation("ID of the employee to update", scanner, input -> input != null && !input.trim().isEmpty());
+    }
+
+    public boolean performAnotherTry(EmployeeOperations employeeOps) {
+        System.out.print("Do you want to try again? (yes/no): ");
+        String choice = scanner.nextLine();
+        return employeeOps.performAnotherAction(choice);
+    }
+
+    public String updateIDWithValidation(EmployeeOperations employeeOps, List<Employee> employees) {
+        return employeeOps.inputWithValidation("new ID", scanner, input -> employeeOps.isValidId(input, employees));
+    }
+
+    public String updateNameWithValidation(EmployeeOperations employeeOps) {
+        return employeeOps.inputWithValidation("new name", scanner, input -> !input.trim().isEmpty());
+    }
+
+    public String updateGenderWithValidation(EmployeeOperations employeeOps) {
+        return employeeOps.inputWithValidation("new gender", scanner, input -> !input.trim().isEmpty());
+    }
+
+    public String updatePositionWithValidation(EmployeeOperations employeeOps) {
+        return employeeOps.inputWithValidation("new position", scanner, input -> !input.trim().isEmpty());
+    }
+
+    public int updateAgeWithValidation() {
+        return employeeOps.inputIntegerWithValidation("new age", scanner);
+    }
+
+    public String updateUsernameWithValidation(EmployeeOperations employeeOps, List<Employee> employees) {
+        return employeeOps.inputWithValidation("new username", scanner, input -> employeeOps.isValidUsername(input, employees, null));
+    }
+
+    public String updatePasswordWithValidation(EmployeeOperations employeeOps) {
+        return employeeOps.inputWithValidation("new password", scanner, input -> !input.trim().isEmpty());
+    }
+
+    // Ghi dữ liệu cập nhật vào file CSV
+    public void updateToCSV(EmployeeOperations employeeOps, List<Employee> employees, Employee toUpdate, String id, String name, String gender, String position, int age, String username, String password) {
+        toUpdate.setId(id);
+        toUpdate.setName(name);
+        toUpdate.setGender(gender);
+        toUpdate.setPosition(position);
+        toUpdate.setAge(age);
+        toUpdate.setUsername(username);
+        toUpdate.setPassword(password);
+        System.out.println("Employee information updated successfully!");
+        employeeOps.updateCSV(employees, "src/employee_data.csv");
+    }
+
+    // Hỏi người dùng có muốn cập nhật nhân viên khác không
+    public boolean performAnotherChange(EmployeeOperations employeeOps) {
+        System.out.print("Do you want to update another employee? (yes/no): ");
+        String choice = scanner.nextLine();
+        return employeeOps.performAnotherAction(choice);
     }
 }

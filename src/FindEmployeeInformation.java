@@ -7,30 +7,20 @@ import java.util.Set;
 
 public class FindEmployeeInformation {
     private final EmployeeOperations employeeOps = new EmployeeUtils();
+    Scanner scanner = new Scanner(System.in);
 
     public void execute() {
-        Scanner scanner = new Scanner(System.in);
         while (true) {
-            String searchValue = employeeOps.inputWithValidation("value to search for", scanner, input -> !input.trim().isEmpty());
+            String searchValue = inputValueWithValidation(employeeOps);
             if (searchValue == null) return;
 
             String filePath = "src/employee_data.csv";
             Set<String> foundLines = searchInCSV(filePath, searchValue);
 
-            if (foundLines.isEmpty()) {
-                System.out.println("No matching records found.");
-            } else {
-                System.out.println("Matching records:");
-                for (String foundLine : foundLines) {
-                    displayFormattedLine(foundLine);
-                }
-            }
+            checkFoundLinesEmpty(foundLines);
 
-            System.out.print("Do you want to search for another value? (yes/no): ");
-            String choice = scanner.nextLine();
-            if (!choice.equalsIgnoreCase("yes")) {
-                break;
-            }
+            // Ask user if they want to perform another action
+            if(!performAnotherFind(employeeOps)) break;
         }
     }
 
@@ -56,5 +46,28 @@ public class FindEmployeeInformation {
         } else {
             System.out.println("Invalid line format: " + line);
         }
+    }
+
+    public String inputValueWithValidation(EmployeeOperations employeeOps) {
+        String value;
+        employeeOps.checkStringIfNull(value = employeeOps.inputWithValidation("value to search for", scanner, input -> !input.trim().isEmpty()));
+        return value;
+    }
+
+    public void checkFoundLinesEmpty(Set<String> foundLines) {
+        if (foundLines.isEmpty()) {
+            System.out.println("No matching records found.");
+        } else {
+            System.out.println("Matching records:");
+            for (String foundLine : foundLines) {
+                displayFormattedLine(foundLine);
+            }
+        }
+    }
+
+    public boolean performAnotherFind(EmployeeOperations employeeOps) {
+        System.out.print("Do you want to search for another value? (yes/no): ");
+        String choice = scanner.nextLine();
+        return employeeOps.performAnotherAction(choice);
     }
 }

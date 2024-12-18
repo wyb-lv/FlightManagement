@@ -35,8 +35,7 @@ public class AddEmployeeInformation {
             appendToCSV(employeeOps, employees);
 
             // Ask user if they want to perform another action
-            if(!performAnotherAdd(employeeOps))
-                break;
+            if(!performAnotherAdd(employeeOps)) break;
         }
     }
 

@@ -7,7 +7,7 @@ import java.io.FileReader;
 
 public class EmployeeManagement {
     private final EmployeeOperations employeeOps = new EmployeeUtils();
-    private List<Employee> employees;
+    private List<Employee> employees = new ArrayList<>();
     private Scanner scanner;
 
     public void run() {
@@ -33,12 +33,11 @@ public class EmployeeManagement {
     }
 
     public void setUp() {
-        employees = new ArrayList<>();
         loadEmployeesFromFile();
         scanner = new Scanner(System.in);
     }
 
-    private void loadEmployeesFromFile() {
+        private void loadEmployeesFromFile() {
         String filePath = "src/employee_data.csv";
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;

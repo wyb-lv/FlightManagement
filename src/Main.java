@@ -1,10 +1,10 @@
 public class Main {
     public static void main(String[] args) {
-        EmployeeManagement management = new EmployeeManagement();
-        runEmployeeManagement(management);
+        runEmployeeManagement();
     }
 
-    public static void runEmployeeManagement(EmployeeManagement management) {
+    public static void runEmployeeManagement() {
+        EmployeeManagement management = new EmployeeManagement();
         management.run();
     }
 }

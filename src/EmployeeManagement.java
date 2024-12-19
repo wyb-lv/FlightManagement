@@ -8,10 +8,10 @@ import java.io.FileReader;
 public class EmployeeManagement {
     private final EmployeeOperations employeeOps = new EmployeeUtils();
     private List<Employee> employees = new ArrayList<>();
-    private Scanner scanner;
+    private Scanner scanner = new Scanner(System.in);
 
     public void run() {
-        setUp();
+//        setUp();
         while (true) {
             showMenu();
             switch (inputOption()) {
@@ -22,7 +22,8 @@ public class EmployeeManagement {
                 case "5" -> changeEmployeeAccess(employees);
                 case "6" -> {
                     showEmployeeInfo(employeeOps);
-                    inputExitOpion();
+                    System.out.println("Press any key to return to the menu...");
+                    inputOption();
                 }
                 default -> {
                     System.out.println("Exiting program.");
@@ -31,29 +32,29 @@ public class EmployeeManagement {
             }
         }
     }
-
-    public void setUp() {
-        loadEmployeesFromFile();
-        scanner = new Scanner(System.in);
-    }
-
-        private void loadEmployeesFromFile() {
-        String filePath = "src/employee_data.csv";
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length == 8) { // Include access level
-                    Employee employee = new Employee(parts[0], parts[1], parts[2], parts[3], Integer.parseInt(parts[4]), parts[5], parts[6], Employee.AccessLevel.valueOf(parts[7]));
-                    employees.add(employee);
-                } else {
-                    System.out.println("Invalid line format: " + line);
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Error while loading employees from file.");
-        }
-    }
+//
+//    public void setUp() {
+//        loadEmployeesFromFile();
+//        scanner = new Scanner(System.in);
+//    }
+//
+//    private void loadEmployeesFromFile() {
+//        String filePath = "src/employee_data.csv";
+//        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                String[] parts = line.split(",");
+//                if (parts.length == 8) { // Include access level
+//                    Employee employee = new Employee(parts[0], parts[1], parts[2], parts[3], Integer.parseInt(parts[4]), parts[5], parts[6], Employee.AccessLevel.valueOf(parts[7]));
+//                    employees.add(employee);
+//                } else {
+//                    System.out.println("Invalid line format: " + line);
+//                }
+//            }
+//        } catch (IOException e) {
+//            System.out.println("Error while loading employees from file.");
+//        }
+//    }
 
     public void showMenu() {
         System.out.println("===== Employee Management Menu =====");
@@ -68,11 +69,6 @@ public class EmployeeManagement {
 
     public String inputOption() {
         return scanner.nextLine(); // Read choice as a string
-    }
-
-    public String inputExitOpion() {
-        System.out.println("Press any key to return to the menu...");
-        return scanner.nextLine();
     }
 
     public void addEmployeeInformation(List<Employee> employees) {

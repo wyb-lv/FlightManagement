@@ -24,6 +24,10 @@ public class FindEmployeeInformation {
         }
     }
 
+    public String inputValueWithValidation(EmployeeOperations employeeOps) {
+        return employeeOps.inputWithValidation("value to search for", scanner, input -> !input.trim().isEmpty());
+    }
+
     private Set<String> searchInCSV(String filePath, String searchValue) {
         Set<String> foundLines = new HashSet<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -39,21 +43,6 @@ public class FindEmployeeInformation {
         return foundLines;
     }
 
-    private void displayFormattedLine(String line) {
-        String[] parts = line.split(",");
-        if (parts.length == 8) { // Ensure the line has exactly 7 parts
-            System.out.println("ID: " + parts[0] + ", Name: " + parts[1] + ", Gender: " + parts[2] + ", Position: " + parts[3] + ", Age: " + parts[4] + ", Username: " + parts[5] + ", Password: " + parts[6] + ", Access: " + parts[7]);
-        } else {
-            System.out.println("Invalid line format: " + line);
-        }
-    }
-
-    public String inputValueWithValidation(EmployeeOperations employeeOps) {
-        String value;
-        employeeOps.checkStringIfNull(value = employeeOps.inputWithValidation("value to search for", scanner, input -> !input.trim().isEmpty()));
-        return value;
-    }
-
     public void checkFoundLinesEmpty(Set<String> foundLines) {
         if (foundLines.isEmpty()) {
             System.out.println("No matching records found.");
@@ -62,6 +51,15 @@ public class FindEmployeeInformation {
             for (String foundLine : foundLines) {
                 displayFormattedLine(foundLine);
             }
+        }
+    }
+
+    private void displayFormattedLine(String line) {
+        String[] parts = line.split(",");
+        if (parts.length == 8) { // Ensure the line has exactly 7 parts
+            System.out.println("ID: " + parts[0] + ", Name: " + parts[1] + ", Gender: " + parts[2] + ", Position: " + parts[3] + ", Age: " + parts[4] + ", Username: " + parts[5] + ", Password: " + parts[6] + ", Access: " + parts[7]);
+        } else {
+            System.out.println("Invalid line    format: " + line);
         }
     }
 

@@ -10,13 +10,13 @@ public class AddEmployeeInformation {
             String id = inputIDWithValidation(employeeOps, employees);
             if(id == null) return;
 
-            String name = inputNameWithValidation(employeeOps);
+            String name = inputNotNullWithValidation(employeeOps, "name");
             if(name == null) return;
 
-            String gender = inputGenderWithValidation(employeeOps);
+            String gender = inputNotNullWithValidation(employeeOps, "gender");
             if(gender == null) return;
 
-            String position = inputPositionWithValidation(employeeOps);
+            String position = inputNotNullWithValidation(employeeOps, "position");
             if(position == null) return;
 
             int age = inputAgeWithValidation();
@@ -25,7 +25,7 @@ public class AddEmployeeInformation {
             String username = inputUsernameWithValidation(employeeOps, employees);
             if(username == null) return;
 
-            String password = inputPasswordWithValidation(employeeOps);
+            String password = inputNotNullWithValidation(employeeOps, "password");
             if(password == null) return;
 
             // Create and add the new employee with default access level NONE
@@ -40,39 +40,19 @@ public class AddEmployeeInformation {
     }
 
     public String inputIDWithValidation(EmployeeOperations employeeOps, List<Employee> employees){
-        String id;
-        employeeOps.checkStringIfNull(id = employeeOps.inputWithValidation("ID", scanner, input -> employeeOps.isValidId(input, employees)));
-        return id;
+        return employeeOps.inputWithValidation("ID", scanner, input -> employeeOps.isValidId(input, employees));
     }
-    public String inputNameWithValidation(EmployeeOperations employeeOps){
-        String name;
-        employeeOps.checkStringIfNull(name = employeeOps.inputWithValidation("name", scanner, input -> !input.trim().isEmpty()));
-        return name;
+
+    public String inputNotNullWithValidation(EmployeeOperations employeeOps, String fieldName){
+        return employeeOps.inputWithValidation(fieldName, scanner, input -> !input.trim().isEmpty());
     }
-    public String inputGenderWithValidation(EmployeeOperations employeeOps){
-        String gender;
-        employeeOps.checkStringIfNull(gender = employeeOps.inputWithValidation("gender", scanner, input -> !input.trim().isEmpty()));
-        return gender;
-    }
-    public String inputPositionWithValidation(EmployeeOperations employeeOps){
-        String position;
-        employeeOps.checkStringIfNull(position = employeeOps.inputWithValidation("position", scanner, input -> !input.trim().isEmpty()));
-        return position;
-    }
+
     public int inputAgeWithValidation(){
-        Integer age;
-        employeeOps.checkIntegerIfNull(age = employeeOps.inputIntegerWithValidation("age", scanner));
-        return age;
+        return employeeOps.inputIntegerWithValidation("age", scanner);
     }
+
     public String inputUsernameWithValidation(EmployeeOperations employeeOps, List<Employee> employees){
-        String username;
-        employeeOps.checkStringIfNull(username = employeeOps.inputWithValidation("username", scanner, input -> employeeOps.isValidUsername(input, employees, null)));
-        return username;
-    }
-    public String inputPasswordWithValidation(EmployeeOperations employeeOps){
-        String password;
-        employeeOps.checkStringIfNull(password = employeeOps.inputWithValidation("password", scanner, input -> !input.trim().isEmpty()));
-        return password;
+        return employeeOps.inputWithValidation("username", scanner, input -> employeeOps.isValidUsername(input, employees));
     }
 
     public void createAndAddToEmployees(String id, String name, String gender, String position, int age, String username, String password, List<Employee> employees) {

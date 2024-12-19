@@ -1,10 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        runEmployeeManagement();
-    }
+        Login login = new Login("src/employee_data.csv");
 
-    public static void runEmployeeManagement() {
-        EmployeeManagement management = new EmployeeManagement();
-        management.run();
+        login.startLogin();
     }
 }

@@ -22,6 +22,14 @@ public class DeleteEmployeeInformation {
         }
     }
 
+    public void showInfo(EmployeeOperations employeeOps) {
+        employeeOps.showEmployeeInformation();
+    }
+
+    public String inputIDWithValidation(EmployeeOperations employeeOps, List<Employee> employees){
+        return employeeOps.inputWithValidation("ID of the employee to remove", scanner, input -> employeeOps.isValidId(input, employees));
+    }
+
     private Employee findEmployeeById(String id, List<Employee> employees) {
         for (Employee emp : employees) {
             if (emp.getId().equals(id)) {
@@ -29,16 +37,6 @@ public class DeleteEmployeeInformation {
             }
         }
         return null;
-    }
-
-    public void showInfo(EmployeeOperations employeeOps) {
-        employeeOps.showEmployeeInformation();
-    }
-
-    public String inputIDWithValidation(EmployeeOperations employeeOps, List<Employee> employees){
-        String id;
-        employeeOps.checkStringIfNull(id = employeeOps.inputWithValidation("ID of the employee to remove", scanner, input -> employeeOps.isValidId(input, employees)));
-        return id;
     }
 
     public void removeResult(Employee toRemove, List<Employee> employees, String id) {

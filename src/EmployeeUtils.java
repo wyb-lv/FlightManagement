@@ -49,16 +49,23 @@ public class EmployeeUtils implements EmployeeOperations {
 
     @Override
     public boolean isValidId(String id, List<Employee> employees) {
-        return id != null && !id.trim().isEmpty();
-    }
+        if (id == null || id.trim().isEmpty()) {
+            return false;
+        }
+        for (Employee emp : employees) {
+            if (!emp.equals(id) && emp.getId().equals(id)) {
+                return false;
+            }
+        }
+        return true;    }
 
     @Override
-    public boolean isValidUsername(String username, List<Employee> employees, Employee currentEmployee) {
+    public boolean isValidUsername(String username, List<Employee> employees) {
         if (username == null || username.trim().isEmpty()) {
             return false;
         }
         for (Employee emp : employees) {
-            if (!emp.equals(currentEmployee) && emp.getUsername().equals(username)) {
+            if (!emp.equals(username) && emp.getUsername().equals(username)) {
                 return false;
             }
         }
@@ -74,16 +81,6 @@ public class EmployeeUtils implements EmployeeOperations {
         } catch (IOException e) {
             System.out.println("Error while writing to the file.");
         }
-    }
-
-    @Override
-    public void checkStringIfNull(String value) {
-        if(value == null) return;
-    }
-
-    @Override
-    public void checkIntegerIfNull(Integer value) {
-        if (value == null) return;
     }
 
     @Override

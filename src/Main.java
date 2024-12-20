@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        Login login = new Login("src/employee_data.csv");
+        Login login = new Login();
 
-        login.startLogin();
+        login.startLogin("src/employee_data.csv");
     }
 }

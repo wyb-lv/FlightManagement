@@ -2,10 +2,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class DeleteEmployeeInformation {
-    private final EmployeeOperations employeeOps = new EmployeeUtils();
     Scanner scanner = new Scanner(System.in);
 
-    public void execute(List<Employee> employees) {
+    public void execute(List<Employee> employees, EmployeeOperations employeeOps) {
         while (true) {
             showInfo(employeeOps);
             String id = inputIDWithValidation(employeeOps, employees);
@@ -14,7 +13,7 @@ public class DeleteEmployeeInformation {
             Employee toRemove = findEmployeeById(id, employees);
 
             // Result of removing
-            removeResult(toRemove,employees,id);
+            removeResult(toRemove,employees,id,employeeOps);
 
             // Ask user if they want to perform another action
             if(!performAnotherDelete(employeeOps))
@@ -39,7 +38,7 @@ public class DeleteEmployeeInformation {
         return null;
     }
 
-    public void removeResult(Employee toRemove, List<Employee> employees, String id) {
+    public void removeResult(Employee toRemove, List<Employee> employees, String id, EmployeeOperations employeeOps) {
         if (toRemove != null) {
             employees.remove(toRemove);
             System.out.println("Employee removed successfully!");

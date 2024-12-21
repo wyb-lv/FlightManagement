@@ -2,10 +2,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ChangeEmployeeInformation {
-    private final EmployeeOperations employeeOps = new EmployeeUtils();
     Scanner scanner = new Scanner(System.in);
 
-    public void execute(List<Employee> employees) {
+    public void execute(List<Employee> employees, EmployeeOperations employeeOps) {
         while (true) {
             showInfo(employeeOps);
 
@@ -43,7 +42,7 @@ public class ChangeEmployeeInformation {
             String position = updateNotNullWithValidation(employeeOps, "position");
             if(position == null) return;
 
-            int age = updateAgeWithValidation();
+            int age = updateAgeWithValidation(employeeOps);
             if(age == -1) return;
 
             String username = updateUsernameWithValidation(employeeOps, employees);
@@ -91,7 +90,7 @@ public class ChangeEmployeeInformation {
         return employeeOps.inputWithValidation(fieldName, scanner, input -> !input.trim().isEmpty());
     }
 
-    public int updateAgeWithValidation() {
+    public int updateAgeWithValidation(EmployeeOperations employeeOps) {
         return employeeOps.inputIntegerWithValidation("new age", scanner);
     }
 

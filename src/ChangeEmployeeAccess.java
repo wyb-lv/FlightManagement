@@ -2,9 +2,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ChangeEmployeeAccess {
-    private final EmployeeOperations employeeOps = new EmployeeUtils();
 
-    public void execute(List<Employee> employees) {
+    public void execute(List<Employee> employees, EmployeeOperations employeeOps) {
         Scanner scanner = new Scanner(System.in);
 
         Employee currentUser = null;
@@ -53,7 +52,7 @@ public class ChangeEmployeeAccess {
             if (canChangeAccess(currentUser.getAccess(), targetEmployee.getAccess(), newAccess)) {
                 targetEmployee.setAccess(newAccess);
                 System.out.println("Access level changed successfully.");
-                updateCSV(employees);
+                updateCSV(employees, employeeOps);
             } else {
                 System.out.println("You do not have permission to assign this access level.");
             }
@@ -81,7 +80,7 @@ public class ChangeEmployeeAccess {
                 .orElse(null);
     }
 
-    private void updateCSV(List<Employee> employees) {
+    private void updateCSV(List<Employee> employees, EmployeeOperations employeeOps) {
         employeeOps.updateCSV(employees, "src/employee_data.csv");
     }
 }

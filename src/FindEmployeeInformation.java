@@ -6,10 +6,9 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class FindEmployeeInformation {
-    private final EmployeeOperations employeeOps = new EmployeeUtils();
     Scanner scanner = new Scanner(System.in);
 
-    public void execute() {
+    public void execute(EmployeeOperations employeeOps) {
         while (true) {
             String searchValue = inputValueWithValidation(employeeOps);
             if (searchValue == null) return;

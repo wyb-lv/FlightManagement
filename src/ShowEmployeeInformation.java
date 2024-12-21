@@ -5,7 +5,6 @@ import java.io.IOException;
 public class ShowEmployeeInformation {
     public void execute() {
         String filePath = "src/employee_data.csv";
-
         System.out.println("All employees information:");
         displayEmployeeInformation(filePath);
     }

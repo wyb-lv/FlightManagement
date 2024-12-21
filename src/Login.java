@@ -7,9 +7,11 @@ import java.util.Scanner;
 
 public class Login {
     EmployeeManagement employeeManagement = new EmployeeManagement();
-//    FlightManagement flightManagement = new FlightManagement();
-//    AircrewManagement aircrewManagement = new AircrewManagement();
+ //   FlightManagement flightManagement = new FlightManagement();
+    AircrewMenu aircrewManagement = new AircrewMenu(); // Aircrew management
     PassengerManagement passengerManagement = new PassengerManagement();
+    Statistic statistic = new Statistic();
+    LowestLevelAccessManagement lowestLevelAccessManagement = new LowestLevelAccessManagement();
 
     private List<Employee> employees = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
@@ -61,6 +63,7 @@ public class Login {
             }
         } catch (IOException e) {
             System.out.println("Error while reading the file.");
+            return;
         }
     }
 
@@ -81,10 +84,12 @@ public class Login {
                     switch (scanner.nextLine()) {
                         case "1" -> employeeManagement.run(employees);
 //                        case "2" -> flightManagement.run();
-//                        case "3" -> aircrewManagement.run(employees);
+                        case "3" -> aircrewManagement.run();
                         case "4" -> passengerManagement.run();
+                        case "5" -> statistic.run();
                         default -> {
                             System.out.println("Exiting program.");
+                            return;
                         }
                     }
                 }
@@ -94,9 +99,10 @@ public class Login {
                     employeeManagerMenu();
                     switch (scanner.nextLine()) {
                         case "1" -> employeeManagement.run(employees);
-//                        case "2" -> aircrewManagement.run(employees);
+                        case "2" -> aircrewManagement.run();
                         default -> {
                             System.out.println("Exiting program.");
+                            return;
                         }
                     }
                 }
@@ -109,23 +115,13 @@ public class Login {
                         case "2" -> passengerManagement.run();
                         default -> {
                             System.out.println("Exiting program.");
+                            return;
                         }
                     }
                 }
             }
             case NONE -> {
-                while (true) {
-                    noneMenu();
-                    switch (scanner.nextLine()) {
-                        case "1" -> System.out.println("Display flight list");
-                        case "2" -> System.out.println("Search flight information");
-                        case "3" -> System.out.println("Display aircrew information");
-                        case "4" -> System.out.println("Search aircrew information");
-                        default -> {
-                            System.out.println("Exiting program.");
-                        }
-                    }
-                }
+                lowestLevelAccessManagement.run();
             }
         }
     }
@@ -136,6 +132,7 @@ public class Login {
         System.out.println("2. Flight management");
         System.out.println("3. Aircrew management");
         System.out.println("4. Passenger management");
+        System.out.println("5. Statistic");
         System.out.println("Choose an option (1-4, or any other key to exit): ");
     }
 
@@ -150,16 +147,6 @@ public class Login {
         System.out.println("1. Flight management");
         System.out.println("2. Passenger management");
     }
-
-    public void noneMenu(){
-        System.out.println("Access granted to general employee functions.");
-        System.out.println("1. Display flight list");
-        System.out.println("2. Search flight information");
-        System.out.println("3. Display aircrew information");
-        System.out.println("4. Search aircrew information");
-    }
-
-
 }
 
 

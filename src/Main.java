@@ -6,8 +6,8 @@ public class Main {
         EmployeeManagement employeeManagement = new EmployeeManagement();
         //   FlightManagement flightManagement = new FlightManagement();
         AircrewMenu aircrewManagement = new AircrewMenu(); // Aircrew management
-        PassengerManagement passengerManagement = new PassengerManagement();
-        Statistic statistic = new Statistic();
+//        PassengerManagement passengerManagement = new PassengerManagement();
+//        Statistic statistic = new Statistic();
         LowestLevelAccessManagement lowestLevelAccessManagement = new LowestLevelAccessManagement();
         Scanner scanner = new Scanner(System.in);
 

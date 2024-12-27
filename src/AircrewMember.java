@@ -1,15 +1,11 @@
 public class AircrewMember {
     private String id;
     private String name;
-    private String gender;
-    private int age;
     private String position;
 
-    public AircrewMember(String id, String name, String gender, int age, String position) {
+    public AircrewMember(String id, String name, String position) {
         this.id = id;
         this.name = name;
-        this.gender = gender;
-        this.age = age;
         this.position = position;
     }
 

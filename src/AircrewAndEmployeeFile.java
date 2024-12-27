@@ -19,8 +19,8 @@ public class AircrewAndEmployeeFile {
 
                     for (int i = 2; i < parts.length; i++) {
                         String memberName = parts[i].trim();
-                        String role = (i == 2) ? "Pilot" : "Flight Attendant";
-                        AircrewMember member = new AircrewMember("", memberName, "", 0, role);
+                        String position = (i == 2) ? "Pilot" : "Flight Attendant";
+                        AircrewMember member = new AircrewMember("", memberName, position);
                         membersMap.put(member.getId(), member);
                     }
                 }
@@ -39,14 +39,9 @@ public class AircrewAndEmployeeFile {
                 if (data.length >= 5) {
                     String id = data[0].trim();
                     String name = data[1].trim();
-                    String gender = data[2].trim();
                     String position = data[3].trim();
-                    int age = Integer.parseInt(data[4].trim());
-                    String username = data[5].trim();
-                    String password = data[6].trim();
-                    String access = data[7].trim();
 
-                    AircrewMember member = new AircrewMember(id, name, gender, age, position);
+                    AircrewMember member = new AircrewMember(id, name, position);
                     if (position.equalsIgnoreCase("Pilot")) {
                         pilots.add(member);
                     } else if (position.equalsIgnoreCase("Flight Attendant")) {

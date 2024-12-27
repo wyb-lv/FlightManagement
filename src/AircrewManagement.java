@@ -73,12 +73,6 @@ public class AircrewManagement {
             System.out.println("Invalid " + role + " ID. No such member found.");
             return;
         }
-        for (AircrewTeam teams : aircrewMap.values()) {
-            if (teams.getPilot() == member || teams.getFlightAttendant1() == member || teams.getFlightAttendant2() == member) {
-                System.out.println(member.getName() + " is already assigned to another team.");
-                return;
-            }
-        }
         if (role.equals("Pilot")) {
             team.setPilot(member);
         } else if (role.equals("Flight Attendant 1")) {

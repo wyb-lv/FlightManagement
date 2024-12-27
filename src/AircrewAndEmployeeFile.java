@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class File {
+public class AircrewAndEmployeeFile {
     private static final String AIRCREW_FILE = "aircrew.csv";
     private static final String EMPLOYEES_FILE = "employee_data.csv";
 
@@ -40,12 +40,16 @@ public class File {
                     String id = data[0].trim();
                     String name = data[1].trim();
                     String gender = data[2].trim();
-                    String role = data[3].trim();
+                    String position = data[3].trim();
                     int age = Integer.parseInt(data[4].trim());
-                    AircrewMember member = new AircrewMember(id, name, gender, age, role);
-                    if (role.equalsIgnoreCase("Pilot")) {
+                    String username = data[5].trim();
+                    String password = data[6].trim();
+                    String access = data[7].trim();
+
+                    AircrewMember member = new AircrewMember(id, name, gender, age, position);
+                    if (position.equalsIgnoreCase("Pilot")) {
                         pilots.add(member);
-                    } else if (role.equalsIgnoreCase("Flight Attendant")) {
+                    } else if (position.equalsIgnoreCase("Flight Attendant")) {
                         attendants.add(member);
                     }
                 }

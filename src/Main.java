@@ -4,10 +4,10 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         EmployeeManagement employeeManagement = new EmployeeManagement();
-        //   FlightManagement flightManagement = new FlightManagement();
+        FlightManagement flightManagement = new FlightManagement();
         AircrewMenu aircrewManagement = new AircrewMenu(); // Aircrew management
-//        PassengerManagement passengerManagement = new PassengerManagement();
-//        Statistic statistic = new Statistic();
+        PassengerMenu passengerManagement = new PassengerMenu();
+        StatisticMenu statistic = new StatisticMenu();
         LowestLevelAccessManagement lowestLevelAccessManagement = new LowestLevelAccessManagement();
         Scanner scanner = new Scanner(System.in);
 
@@ -25,7 +25,7 @@ public class Main {
 
             if (loggedInEmployee != null) {
                 System.out.println("Login successful! Welcome, " + username + "!");
-                executeFunctionsBasedOnAccessLevel(loggedInEmployee, employeeManagement, aircrewManagement, passengerManagement, statistic, lowestLevelAccessManagement);
+                executeFunctionsBasedOnAccessLevel(loggedInEmployee, employeeManagement, flightManagement, aircrewManagement,passengerManagement, statistic, lowestLevelAccessManagement);
             } else {
                 failedAttempts++;
                 if (failedAttempts < MAX_FAILED_ATTEMPTS) {
@@ -48,18 +48,18 @@ public class Main {
         return null;
     }
 
-    private static void executeFunctionsBasedOnAccessLevel(Employee employee, EmployeeManagement employeeManagement, AircrewMenu aircrewManagement, PassengerManagement passengerManagement, Statistic statistic, LowestLevelAccessManagement lowestLevelAccessManagement) {
+    public static void executeFunctionsBasedOnAccessLevel(Employee employee, EmployeeManagement employeeManagement, FlightManagement flightManagement, AircrewMenu aircrewManagement, PassengerMenu passengerManagement, StatisticMenu statistic, LowestLevelAccessManagement lowestLevelAccessManagement) {
         Scanner scanner = new Scanner(System.in);
         switch (employee.getAccess()) {
             case ADMIN -> {
                 while (true) {
                     adminMenu();
                     switch (scanner.nextLine()) {
-                        case "1" -> employeeManagement.run();
-//                        case "2" -> flightManagement.run();
+                        case "1" -> employeeManagement.run(employee);
+                        case "2" -> flightManagement.run();
                         case "3" -> aircrewManagement.run();
                         case "4" -> passengerManagement.run();
-                        case "5" -> statistic.run();
+                        case "5" -> statistic.run(employeeManagement.getEmployees());
                         default -> {
                             System.out.println("Exiting program.");
                             return;
@@ -71,7 +71,7 @@ public class Main {
                 while (true) {
                     employeeManagerMenu();
                     switch (scanner.nextLine()) {
-                        case "1" -> employeeManagement.run();
+                        case "1" -> employeeManagement.run(employee);
                         case "2" -> aircrewManagement.run();
                         default -> {
                             System.out.println("Exiting program.");
@@ -84,7 +84,7 @@ public class Main {
                 while (true) {
                     flightManagerMenu();
                     switch (scanner.nextLine()) {
-//                        case "1" -> flightManagement.run();
+                        case "1" -> flightManagement.run();
                         case "2" -> passengerManagement.run();
                         default -> {
                             System.out.println("Exiting program.");

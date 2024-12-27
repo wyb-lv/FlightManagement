@@ -16,7 +16,7 @@ public class EmployeeManagement {
         return employees;
     }
 
-    public void run() {
+    public void run(Employee empAccess) {
         while (true) {
             showMenu();
             switch (scanner.nextLine()) {
@@ -24,7 +24,7 @@ public class EmployeeManagement {
                 case "2" -> deleteEmployeeInformation();
                 case "3" -> changeEmployeeInformation();
                 case "4" -> findEmployeeInformation();
-                case "5" -> changeEmployeeAccess();
+                case "5" -> changeEmployeeAccess(empAccess);
                 case "6" -> {
                     displayEmployeeInformation();
                     System.out.println("Press any key to return to the menu...");
@@ -185,26 +185,8 @@ public class EmployeeManagement {
         }
     }
 
-    public void changeEmployeeAccess() {
-        Employee currentUser = null;
-        for (int attempts = 0; attempts < 3; attempts++) {
-            System.out.print("Enter your employee ID: ");
-            String id = scanner.nextLine();
-            currentUser = findEmployeeById(id);
-
-            if (currentUser != null) {
-                break;
-            } else {
-                System.out.println("User not found. Try again.");
-            }
-        }
-
-        if (currentUser == null) {
-            System.out.println("Max attempts reached. Returning to menu.");
-            return;
-        }
-
-        if (currentUser.getAccess() == Employee.AccessLevel.NONE || currentUser.getAccess() == Employee.AccessLevel.FLIGHT_MANAGER) {
+    public void changeEmployeeAccess(Employee empAccess) {
+        if (empAccess.getAccess() == Employee.AccessLevel.NONE || empAccess.getAccess() == Employee.AccessLevel.FLIGHT_MANAGER) {
             System.out.println("You do not have permission to change access levels.");
             return;
         }
@@ -230,7 +212,7 @@ public class EmployeeManagement {
                 continue; // Prompt again for a valid access level
             }
 
-            if (canChangeAccess(currentUser.getAccess(), targetEmployee.getAccess(), newAccess)) {
+            if (canChangeAccess(empAccess.getAccess(), targetEmployee.getAccess(), newAccess)) {
                 targetEmployee.setAccess(newAccess);
                 System.out.println("Access level changed successfully.");
                 updateCSV("Employee level access updated successfully!");

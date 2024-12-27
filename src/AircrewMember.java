@@ -3,14 +3,14 @@ public class AircrewMember {
     private String name;
     private String gender;
     private int age;
-    private String role;
+    private String position;
 
-    public AircrewMember(String id, String name, String gender, int age, String role) {
+    public AircrewMember(String id, String name, String gender, int age, String position) {
         this.id = id;
         this.name = name;
         this.gender = gender;
         this.age = age;
-        this.role = role;
+        this.position = position;
     }
 
     public String getId() {
@@ -22,6 +22,6 @@ public class AircrewMember {
 
     @Override
     public String toString() {
-        return "Name: " + name + ", Role: " + role + "\n";
+        return "Name: " + name + ", Role: " + position + "\n";
     }
 }

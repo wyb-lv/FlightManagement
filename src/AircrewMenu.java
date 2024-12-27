@@ -8,7 +8,7 @@ public class AircrewMenu {
     }
 
     protected void run() {
-        File file = new File();
+        AircrewAndEmployeeFile file = new AircrewAndEmployeeFile();
         AircrewManagement aircrewManagement = new AircrewManagement(file,scanner);
 
         while (true) {

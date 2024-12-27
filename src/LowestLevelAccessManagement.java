@@ -6,7 +6,9 @@ public class LowestLevelAccessManagement {
         this.scanner = new Scanner(System.in);
     }
     protected void run(){
-        AircrewManagement aircrewManagement = new AircrewManagement();
+        AircrewAndEmployeeFile file = new AircrewAndEmployeeFile();
+        AircrewManagement aircrewManagement = new AircrewManagement(file,scanner);
+        Flight flight = new Flight();
         while (true){
             System.out.println("==== Lowest Level Access Management Account ====");
             System.out.println("1. Display Aircrew Teams");
@@ -23,6 +25,12 @@ public class LowestLevelAccessManagement {
                     break;
                 case 2:
                     aircrewManagement.searchAircrew();
+                    break;
+                case 3:
+                    flight.Display_Flight();
+                    break;
+                case 4:
+                    flight.Search_Flight();
                     break;
                 case 5:
                     System.out.println("Exiting the system...");

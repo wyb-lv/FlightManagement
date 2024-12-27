@@ -1,14 +1,14 @@
 import java.util.*;
 
 public class AircrewManagement {
-    private File fileHandler;
+    private AircrewAndEmployeeFile fileHandler;
     private Scanner scanner;
     private Map<String, AircrewTeam> aircrewMap;
     private Map<String, AircrewMember> membersMap;
     private List<AircrewMember> pilots;
     private List<AircrewMember> attendants;
 
-    public AircrewManagement(File fileHandler, Scanner scanner) {
+    public AircrewManagement(AircrewAndEmployeeFile fileHandler, Scanner scanner) {
         this.fileHandler = fileHandler;
         this.scanner = scanner;
         this.aircrewMap = new HashMap<>();

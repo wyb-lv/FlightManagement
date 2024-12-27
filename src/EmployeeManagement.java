@@ -254,13 +254,11 @@ public class EmployeeManagement {
     }
 
     public String inputIDWithValidation(String field){
-        String id = inputWithValidation(field, input -> isValidId(input));
-        return id;
+        return inputWithValidation(field, input -> isValidId(input));
     }
 
     public String inputNotNullWithValidation(String field){
-        String value = inputWithValidation(field, input -> !input.trim().isEmpty());
-        return value;
+        return  inputWithValidation(field, input -> !input.trim().isEmpty());
     }
 
     public Integer inputIntegerWithValidation(String field) {
@@ -303,16 +301,15 @@ public class EmployeeManagement {
         String username = inputWithValidation(field, this::isValidUsername);
         return username;
     }
+    // Stream API
+    private Employee findEmployeeById(String id) {
+        return employees.stream().filter(employee -> employee.getId().equals(id)).findFirst().orElse(null);
+    }
 
     public boolean performAnotherAct(String content) {
         System.out.print(content);
         String choice = scanner.nextLine();
         return choice.equalsIgnoreCase("yes");
-    }
-
-    // Stream API
-    private Employee findEmployeeById(String id) {
-        return employees.stream().filter(employee -> employee.getId().equals(id)).findFirst().orElse(null);
     }
 
     public void displayEmployeeInformation() {

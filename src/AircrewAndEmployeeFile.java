@@ -2,8 +2,8 @@ import java.io.*;
 import java.util.*;
 
 public class AircrewAndEmployeeFile {
-    private static final String AIRCREW_FILE = "aircrew.csv";
-    private static final String EMPLOYEES_FILE = "employee_data.csv";
+    private static final String AIRCREW_FILE = "src/aircrew.csv";
+    private static final String EMPLOYEES_FILE = "src/employee_data.csv";
 
     public void loadAircrewFromFile(Map<String, AircrewTeam> aircrewMap, Map<String, AircrewMember> membersMap) {
         checkFileExist(AIRCREW_FILE);

@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
         EmployeeManagement employeeManagement = new EmployeeManagement();
         FlightManagement flightManagement = new FlightManagement();
-        AircrewMenu aircrewManagement = new AircrewMenu(); // Aircrew management
+        AircrewMenu aircrewManagement = new AircrewMenu();
         PassengerMenu passengerManagement = new PassengerMenu();
         StatisticMenu statistic = new StatisticMenu();
         LowestLevelAccessManagement lowestLevelAccessManagement = new LowestLevelAccessManagement();
@@ -35,7 +35,6 @@ public class Main {
                     return;
                 }
             }
-
         }
     }
 

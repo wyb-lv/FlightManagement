@@ -220,11 +220,7 @@ public class EmployeeManagement {
                 System.out.println("You do not have permission to assign this access level.");
             }
 
-            System.out.print("Do you want to change access for another employee? (yes/no): ");
-            String choice = scanner.nextLine();
-            if (!choice.equalsIgnoreCase("yes")) {
-                break; // Return to the menu if the user does not want to continue
-            }
+            if (!performAnotherAct("Do you want to change access for another employee? (yes/no): ")) break;
         }
     }
 //==============================================================================GENERAL====================================================================================================
@@ -404,7 +400,7 @@ public class EmployeeManagement {
         if (parts.length == 8) { // Ensure the line has exactly 7 parts
             System.out.println("ID: " + parts[0] + ", Name: " + parts[1] + ", Gender: " + parts[2] + ", Position: " + parts[3] + ", Age: " + parts[4] + ", Username: " + parts[5] + ", Password: " + parts[6] + ", Access: " + parts[7]);
         } else {
-            System.out.println("Invalid line    format: " + line);
+            System.out.println("Invalid line format: " + line);
         }
     }
 //==============================================================================change access====================================================================================================

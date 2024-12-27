@@ -16,12 +16,21 @@ public class AircrewAndEmployeeFile {
                     String teamName = parts[1].trim();
                     AircrewTeam team = new AircrewTeam(teamId, teamName);
                     aircrewMap.put(teamId, team);
-
                     for (int i = 2; i < parts.length; i++) {
                         String memberName = parts[i].trim();
                         String position = (i == 2) ? "Pilot" : "Flight Attendant";
-                        AircrewMember member = new AircrewMember("", memberName, position);
-                        membersMap.put(member.getId(), member);
+                        String memberId = teamId + "_" + i;
+                        AircrewMember member = new AircrewMember(memberId, memberName, position);
+                        membersMap.put(memberId, member);
+                        if (position.equals("Pilot")) {
+                            team.setPilot(member);
+                        } else if (position.equals("Flight Attendant")) {
+                            if (team.getFlightAttendant1() == null) {
+                                team.setFlightAttendant1(member);
+                            } else {
+                                team.setFlightAttendant2(member);
+                            }
+                        }
                     }
                 }
             }
@@ -30,7 +39,7 @@ public class AircrewAndEmployeeFile {
         }
     }
 
-    public void loadEmployeesFromFile(List<AircrewMember> pilots, List<AircrewMember> attendants) {
+    public void loadEmployeesFromFile(Map<String, AircrewMember> pilots, Map<String, AircrewMember> attendants) {
         checkFileExist(EMPLOYEES_FILE);
         try (BufferedReader reader = new BufferedReader(new FileReader(EMPLOYEES_FILE))) {
             String line;
@@ -40,12 +49,11 @@ public class AircrewAndEmployeeFile {
                     String id = data[0].trim();
                     String name = data[1].trim();
                     String position = data[3].trim();
-
                     AircrewMember member = new AircrewMember(id, name, position);
                     if (position.equalsIgnoreCase("Pilot")) {
-                        pilots.add(member);
+                        pilots.put(id, member);
                     } else if (position.equalsIgnoreCase("Flight Attendant")) {
-                        attendants.add(member);
+                        attendants.put(id, member);
                     }
                 }
             }
@@ -58,7 +66,16 @@ public class AircrewAndEmployeeFile {
         checkFileExist(AIRCREW_FILE);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(AIRCREW_FILE))) {
             for (AircrewTeam team : aircrewMap.values()) {
-                writer.write(team.toCsvString());
+                writer.write(team.getTeamId() + "," + team.getTeamName() + ",");
+                if (team.getPilot() != null) {
+                    writer.write(team.getPilot().getName() + ",");
+                }
+                if (team.getFlightAttendant1() != null) {
+                    writer.write(team.getFlightAttendant1().getName() + ",");
+                }
+                if (team.getFlightAttendant2() != null) {
+                    writer.write(team.getFlightAttendant2().getName());
+                }
                 writer.newLine();
             }
         } catch (IOException e) {

@@ -5,16 +5,16 @@ public class AircrewManagement {
     private Scanner scanner;
     private Map<String, AircrewTeam> aircrewMap;
     private Map<String, AircrewMember> membersMap;
-    private List<AircrewMember> pilots;
-    private List<AircrewMember> attendants;
+    private Map<String, AircrewMember> pilots;
+    private Map<String, AircrewMember> attendants;
 
     public AircrewManagement(AircrewAndEmployeeFile fileHandler, Scanner scanner) {
         this.fileHandler = fileHandler;
         this.scanner = scanner;
         this.aircrewMap = new HashMap<>();
         this.membersMap = new HashMap<>();
-        this.pilots = new ArrayList<>();
-        this.attendants = new ArrayList<>();
+        this.pilots = new HashMap<>();
+        this.attendants = new HashMap<>();
         fileHandler.loadAircrewFromFile(aircrewMap, membersMap);
         fileHandler.loadEmployeesFromFile(pilots, attendants);
     }
@@ -45,33 +45,49 @@ public class AircrewManagement {
             System.out.println("No team found with the given ID.");
             return;
         }
+        AircrewTeam team = aircrewMap.get(teamId);
         System.out.println("Available Pilots:");
-        for (AircrewMember pilot : pilots) {
+        for (AircrewMember pilot : pilots.values()) {
             System.out.println(pilot.getId() + " - " + pilot.getName());
         }
         System.out.println("Available Flight Attendants:");
-        for (AircrewMember attendant : attendants) {
+        for (AircrewMember attendant : attendants.values()) {
             System.out.println(attendant.getId() + " - " + attendant.getName());
         }
-        addMemberToTeam("Pilot");
-        for (int i = 1; i <= 2; i++) {
-            addMemberToTeam("Flight Attendant " + i);
-        }
+        addMemberToTeam(team, "Pilot");
+        addMemberToTeam(team, "Flight Attendant 1");
+        addMemberToTeam(team, "Flight Attendant 2");
         System.out.println("Successfully added members to the team!");
         fileHandler.saveAircrewToFile(aircrewMap);
     }
 
-
-    private void addMemberToTeam(String role) {
+    private void addMemberToTeam(AircrewTeam team, String role) {
         String memberId = readInput("Enter " + role + " ID: ").trim();
-        AircrewMember member = membersMap.get(memberId);
-        if (member != null) {
-            membersMap.put(role, member);
-        } else {
-            System.out.println("Invalid " + role + " ID");
+        AircrewMember member = null;
+        if (role.equals("Pilot")) {
+            member = pilots.get(memberId);
+        } else if (role.equals("Flight Attendant 1") || role.equals("Flight Attendant 2")) {
+            member = attendants.get(memberId);
         }
+        if (member == null) {
+            System.out.println("Invalid " + role + " ID. No such member found.");
+            return;
+        }
+        for (AircrewTeam teams : aircrewMap.values()) {
+            if (teams.getPilot() == member || teams.getFlightAttendant1() == member || teams.getFlightAttendant2() == member) {
+                System.out.println(member.getName() + " is already assigned to another team.");
+                return;
+            }
+        }
+        if (role.equals("Pilot")) {
+            team.setPilot(member);
+        } else if (role.equals("Flight Attendant 1")) {
+            team.setFlightAttendant1(member);
+        } else if (role.equals("Flight Attendant 2")) {
+            team.setFlightAttendant2(member);
+        }
+        System.out.println(role + " assigned to the team successfully.");
     }
-
 
     public void displayAllAircrewTeams() {
         if (aircrewMap.isEmpty()) {

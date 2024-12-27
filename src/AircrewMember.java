@@ -12,12 +12,9 @@ public class AircrewMember {
     public String getId() {
         return id;
     }
-    public String getName() {
-        return name;
-    }
+    public String getName() {return name;}
 
     @Override
-    public String toString() {
-        return "Name: " + name + ", Role: " + position + "\n";
+    public String toString() {return "ID: "+ id + "Name: " + name + ", Role: " + position + "\n";
     }
 }
